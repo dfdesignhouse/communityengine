@@ -37,16 +37,18 @@ EOF
   end
 end
 
-def add_application_yml(name)
+def add_application_yml(name, tagline)
   file("config/application.yml") do
     "community_name: #{name}"
+    "community_name: #{tagline}"    
   end  
 end
 
 
 # CommunityEngine Setup
-ce_git_repo = "git://github.com/bborn/communityengine.git"
+ce_git_repo = "git://github.com/dfdesignhouse/communityengine.git"
 app_name    = ask("Please enter the application's name: ")
+app_tagline = ask("Please enter your applications's tagline: ")
   
 # Delete unnecessary files
 run "rm public/index.html"
@@ -90,7 +92,7 @@ git :submodule => "update"
 route "map.routes_from_plugin :community_engine"
  
 modify_environment_files
-add_application_yml(app_name)
+add_application_yml(app_name, app_tagline)
 
 in_root do
   run_ruby_script "script/generate plugin_migration"
